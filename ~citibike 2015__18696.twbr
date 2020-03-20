@@ -11054,12 +11054,24 @@
       <datasources>
         <datasource caption='201501-citibike-tripdata' name='federated.1mewo8x06ns2is1c3jf3m0rmrl03' />
       </datasources>
-      <datasource-dependencies datasource='federated.1mewo8x06ns2is1c3jf3m0rmrl03' />
+      <datasource-dependencies datasource='federated.1mewo8x06ns2is1c3jf3m0rmrl03'>
+        <column caption='GenderField' datatype='string' name='[Calculation_579838478923661312]' role='dimension' type='nominal'>
+          <calculation class='tableau' formula='CASE [gender]&#13;&#10;WHEN 1&#13;&#10;THEN &quot;Male&quot;&#13;&#10;WHEN  2&#13;&#10;THEN &quot;Female&quot;&#13;&#10;ELSE &quot;Unknown&quot;&#13;&#10;END' />
+        </column>
+        <column-instance column='[Calculation_579838478923661312]' derivation='None' name='[none:Calculation_579838478923661312:nk]' pivot='key' type='nominal' />
+      </datasource-dependencies>
+      <filter class='categorical' column='[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[Action (Age Group)]'>
+        <groupfilter function='level-members' level='[Calculation_579838478932131841]' user:ui-action-filter='[Action17]' user:ui-enumeration='all' user:ui-marker='enumerate' />
+      </filter>
       <filter class='categorical' column='[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[Action (MONTH(Stoptime))]'>
         <groupfilter function='level-members' level='[mn:stoptime:ok]' user:ui-enumeration='all' user:ui-marker='enumerate' />
       </filter>
       <filter class='categorical' column='[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[Action (WEEKDAY(Stoptime))]'>
         <groupfilter function='level-members' level='[wd:stoptime:ok]' user:ui-enumeration='all' user:ui-marker='enumerate' />
+      </filter>
+      <filter class='categorical' column='[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[none:Calculation_579838478923661312:nk]'>
+        <groupfilter function='level-members' level='[none:Calculation_579838478923661312:nk]' user:ui-enumeration='all' user:ui-marker='enumerate' />
+        <target field='[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[none:Calculation_579838478923661312:nk]' />
       </filter>
     </shared-view>
   </shared-views>
@@ -11266,6 +11278,7 @@
             <column caption='Gender' datatype='integer' name='[gender]' role='measure' type='quantitative' />
             <column-instance column='[starttime]' derivation='Month' name='[mn:starttime:ok]' pivot='key' type='ordinal' />
             <column-instance column='[stoptime]' derivation='Month' name='[mn:stoptime:ok]' pivot='key' type='ordinal' />
+            <column-instance column='[Calculation_579838478923661312]' derivation='None' name='[none:Calculation_579838478923661312:nk]' pivot='key' type='nominal' />
             <column-instance column='[Calculation_579838478932131841]' derivation='None' name='[none:Calculation_579838478932131841:nk]' pivot='key' type='nominal' />
             <column-instance column='[usertype]' derivation='None' name='[none:usertype:nk]' pivot='key' type='nominal' />
             <column-instance column='[usertype]' derivation='Count' name='[pcto:cnt:usertype:qk]' pivot='key' type='quantitative'>
@@ -11306,6 +11319,8 @@
             <column>[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[Action (MONTH(Starttime))]</column>
             <column>[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[Action (MONTH(Stoptime))]</column>
             <column>[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[Action (WEEKDAY(Stoptime))]</column>
+            <column>[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[Action (Age Group)]</column>
+            <column>[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[none:Calculation_579838478923661312:nk]</column>
           </slices>
           <aggregation value='true' />
         </view>
@@ -11363,14 +11378,12 @@
             <column caption='Gender' datatype='integer' name='[gender]' role='measure' type='quantitative' />
             <column-instance column='[starttime]' derivation='Hour' name='[hr:starttime:ok]' pivot='key' type='ordinal' />
             <column-instance column='[stoptime]' derivation='Month' name='[mn:stoptime:ok]' pivot='key' type='ordinal' />
+            <column-instance column='[Calculation_579838478923661312]' derivation='None' name='[none:Calculation_579838478923661312:nk]' pivot='key' type='nominal' />
             <column-instance column='[Calculation_579838478932131841]' derivation='None' name='[none:Calculation_579838478932131841:nk]' pivot='key' type='nominal' />
             <column caption='Starttime' datatype='datetime' name='[starttime]' role='dimension' type='ordinal' />
             <column caption='Stoptime' datatype='datetime' name='[stoptime]' role='dimension' type='ordinal' />
             <column-instance column='[stoptime]' derivation='Weekday' name='[wd:stoptime:ok]' pivot='key' type='ordinal' />
           </datasource-dependencies>
-          <filter class='categorical' column='[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[Action (Age Group)]'>
-            <groupfilter function='level-members' level='[Calculation_579838478932131841]' user:ui-action-filter='[Action17]' user:ui-enumeration='all' user:ui-marker='enumerate' />
-          </filter>
           <filter class='categorical' column='[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[Action (GenderField,Age Group)]'>
             <groupfilter function='crossjoin' user:ui-action-filter='[Action18]' user:ui-enumeration='all' user:ui-marker='enumerate'>
               <groupfilter function='level-members' level='[Calculation_579838478923661312]' />
@@ -11386,6 +11399,7 @@
             <column>[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[Action (GenderField,Age Group)]</column>
             <column>[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[Action (MONTH(Stoptime))]</column>
             <column>[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[Action (WEEKDAY(Stoptime))]</column>
+            <column>[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[none:Calculation_579838478923661312:nk]</column>
           </slices>
           <aggregation value='true' />
         </view>
@@ -11416,14 +11430,23 @@
             <column caption='Tripduration(minutes)' datatype='real' name='[Calculation_1046805465702531074]' role='measure' type='quantitative'>
               <calculation class='tableau' formula='[tripduration]/60' />
             </column>
+            <column caption='GenderField' datatype='string' name='[Calculation_579838478923661312]' role='dimension' type='nominal'>
+              <calculation class='tableau' formula='CASE [gender]&#13;&#10;WHEN 1&#13;&#10;THEN &quot;Male&quot;&#13;&#10;WHEN  2&#13;&#10;THEN &quot;Female&quot;&#13;&#10;ELSE &quot;Unknown&quot;&#13;&#10;END' />
+            </column>
+            <column caption='Age Group' datatype='string' name='[Calculation_579838478932131841]' role='dimension' type='nominal'>
+              <calculation class='tableau' formula='IF [birth year] &lt; 1970 AND [birth year]&gt;1955&#13;&#10;THEN &quot;50-65s&quot;&#13;&#10;ELSEIF [birth year] &lt; 1980 AND [birth year]&gt;=1970&#13;&#10;THEN &quot;40s&quot;&#13;&#10;ELSEIF [birth year] &lt; 1990 AND [birth year]&gt;=1980&#13;&#10;THEN &quot;30s&quot;&#13;&#10;ELSEIF [birth year] &lt; 2000 AND [birth year]&gt;=1990&#13;&#10;THEN &quot;20s&quot;&#13;&#10;ELSEIF [birth year] &gt;=2000 AND [birth year] &lt; 2010&#13;&#10;THEN &quot;teenages&quot;&#13;&#10;ELSE &quot;65s and older&quot;&#13;&#10;END' />
+            </column>
             <column-instance column='[Calculation_1046805465702531074]' derivation='Avg' name='[avg:Calculation_1046805465702531074:qk]' pivot='key' type='quantitative' />
             <column caption='Bikeid' datatype='integer' name='[bikeid]' role='dimension' type='ordinal' />
+            <column caption='Birth Year' datatype='integer' name='[birth year]' role='dimension' type='quantitative' />
             <column-instance column='[tripduration]' derivation='Count' name='[cnt:tripduration:qk]' pivot='key' type='quantitative' />
             <column caption='End Station Id' datatype='integer' name='[end station id]' role='measure' type='quantitative' />
             <column caption='End Station Name' datatype='string' name='[end station name]' role='dimension' type='nominal' />
+            <column caption='Gender' datatype='integer' name='[gender]' role='measure' type='quantitative' />
             <column-instance column='[starttime]' derivation='Hour' name='[hr:starttime:ok]' pivot='key' type='ordinal' />
             <column-instance column='[starttime]' derivation='Month' name='[mn:starttime:ok]' pivot='key' type='ordinal' />
             <column-instance column='[stoptime]' derivation='Month' name='[mn:stoptime:ok]' pivot='key' type='ordinal' />
+            <column-instance column='[Calculation_579838478923661312]' derivation='None' name='[none:Calculation_579838478923661312:nk]' pivot='key' type='nominal' />
             <column-instance column='[bikeid]' derivation='None' name='[none:bikeid:ok]' pivot='key' type='ordinal' />
             <column-instance column='[end station id]' derivation='None' name='[none:end station id:ok]' pivot='key' type='ordinal' />
             <column-instance column='[end station name]' derivation='None' name='[none:end station name:nk]' pivot='key' type='nominal' />
@@ -11478,6 +11501,8 @@
             <column>[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[Action (QUARTER(Starttime))]</column>
             <column>[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[Action (MONTH(Stoptime))]</column>
             <column>[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[Action (WEEKDAY(Stoptime))]</column>
+            <column>[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[Action (Age Group)]</column>
+            <column>[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[none:Calculation_579838478923661312:nk]</column>
           </slices>
           <aggregation value='true' />
         </view>
@@ -11535,14 +11560,23 @@
             <column caption='Tripduration(minutes)' datatype='real' name='[Calculation_1046805465702531074]' role='measure' type='quantitative'>
               <calculation class='tableau' formula='[tripduration]/60' />
             </column>
+            <column caption='GenderField' datatype='string' name='[Calculation_579838478923661312]' role='dimension' type='nominal'>
+              <calculation class='tableau' formula='CASE [gender]&#13;&#10;WHEN 1&#13;&#10;THEN &quot;Male&quot;&#13;&#10;WHEN  2&#13;&#10;THEN &quot;Female&quot;&#13;&#10;ELSE &quot;Unknown&quot;&#13;&#10;END' />
+            </column>
+            <column caption='Age Group' datatype='string' name='[Calculation_579838478932131841]' role='dimension' type='nominal'>
+              <calculation class='tableau' formula='IF [birth year] &lt; 1970 AND [birth year]&gt;1955&#13;&#10;THEN &quot;50-65s&quot;&#13;&#10;ELSEIF [birth year] &lt; 1980 AND [birth year]&gt;=1970&#13;&#10;THEN &quot;40s&quot;&#13;&#10;ELSEIF [birth year] &lt; 1990 AND [birth year]&gt;=1980&#13;&#10;THEN &quot;30s&quot;&#13;&#10;ELSEIF [birth year] &lt; 2000 AND [birth year]&gt;=1990&#13;&#10;THEN &quot;20s&quot;&#13;&#10;ELSEIF [birth year] &gt;=2000 AND [birth year] &lt; 2010&#13;&#10;THEN &quot;teenages&quot;&#13;&#10;ELSE &quot;65s and older&quot;&#13;&#10;END' />
+            </column>
             <column-instance column='[Calculation_1046805465702531074]' derivation='Avg' name='[avg:Calculation_1046805465702531074:qk]' pivot='key' type='quantitative' />
             <column caption='Bikeid' datatype='integer' name='[bikeid]' role='dimension' type='ordinal' />
+            <column caption='Birth Year' datatype='integer' name='[birth year]' role='dimension' type='quantitative' />
             <column-instance column='[tripduration]' derivation='Count' name='[cnt:tripduration:qk]' pivot='key' type='quantitative' />
             <column caption='End Station Id' datatype='integer' name='[end station id]' role='measure' type='quantitative' />
             <column caption='End Station Name' datatype='string' name='[end station name]' role='dimension' type='nominal' />
+            <column caption='Gender' datatype='integer' name='[gender]' role='measure' type='quantitative' />
             <column-instance column='[starttime]' derivation='Hour' name='[hr:starttime:ok]' pivot='key' type='ordinal' />
             <column-instance column='[starttime]' derivation='Month' name='[mn:starttime:ok]' pivot='key' type='ordinal' />
             <column-instance column='[stoptime]' derivation='Month' name='[mn:stoptime:ok]' pivot='key' type='ordinal' />
+            <column-instance column='[Calculation_579838478923661312]' derivation='None' name='[none:Calculation_579838478923661312:nk]' pivot='key' type='nominal' />
             <column-instance column='[end station id]' derivation='None' name='[none:end station id:ok]' pivot='key' type='ordinal' />
             <column-instance column='[starttime]' derivation='Quarter' name='[qr:starttime:ok]' pivot='key' type='ordinal' />
             <column caption='Start Station Name' datatype='string' name='[start station name]' role='dimension' type='nominal' />
@@ -11579,6 +11613,8 @@
             <column>[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[Action (HOUR(Starttime))]</column>
             <column>[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[Action (MONTH(Stoptime))]</column>
             <column>[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[Action (WEEKDAY(Stoptime))]</column>
+            <column>[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[Action (Age Group)]</column>
+            <column>[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[none:Calculation_579838478923661312:nk]</column>
           </slices>
           <aggregation value='true' />
         </view>
@@ -11683,12 +11719,21 @@
             <datasource caption='201501-citibike-tripdata' name='federated.1mewo8x06ns2is1c3jf3m0rmrl03' />
           </datasources>
           <datasource-dependencies datasource='federated.1mewo8x06ns2is1c3jf3m0rmrl03'>
+            <column caption='GenderField' datatype='string' name='[Calculation_579838478923661312]' role='dimension' type='nominal'>
+              <calculation class='tableau' formula='CASE [gender]&#13;&#10;WHEN 1&#13;&#10;THEN &quot;Male&quot;&#13;&#10;WHEN  2&#13;&#10;THEN &quot;Female&quot;&#13;&#10;ELSE &quot;Unknown&quot;&#13;&#10;END' />
+            </column>
+            <column caption='Age Group' datatype='string' name='[Calculation_579838478932131841]' role='dimension' type='nominal'>
+              <calculation class='tableau' formula='IF [birth year] &lt; 1970 AND [birth year]&gt;1955&#13;&#10;THEN &quot;50-65s&quot;&#13;&#10;ELSEIF [birth year] &lt; 1980 AND [birth year]&gt;=1970&#13;&#10;THEN &quot;40s&quot;&#13;&#10;ELSEIF [birth year] &lt; 1990 AND [birth year]&gt;=1980&#13;&#10;THEN &quot;30s&quot;&#13;&#10;ELSEIF [birth year] &lt; 2000 AND [birth year]&gt;=1990&#13;&#10;THEN &quot;20s&quot;&#13;&#10;ELSEIF [birth year] &gt;=2000 AND [birth year] &lt; 2010&#13;&#10;THEN &quot;teenages&quot;&#13;&#10;ELSE &quot;65s and older&quot;&#13;&#10;END' />
+            </column>
             <column datatype='integer' name='[Number of Records]' role='measure' type='quantitative' user:auto-column='numrec'>
               <calculation class='tableau' formula='1' />
             </column>
             <column caption='Bikeid' datatype='integer' name='[bikeid]' role='dimension' type='ordinal' />
+            <column caption='Birth Year' datatype='integer' name='[birth year]' role='dimension' type='quantitative' />
             <column-instance column='[Number of Records]' derivation='Count' name='[cnt:Number of Records:qk]' pivot='key' type='quantitative' />
+            <column caption='Gender' datatype='integer' name='[gender]' role='measure' type='quantitative' />
             <column-instance column='[stoptime]' derivation='Month' name='[mn:stoptime:ok]' pivot='key' type='ordinal' />
+            <column-instance column='[Calculation_579838478923661312]' derivation='None' name='[none:Calculation_579838478923661312:nk]' pivot='key' type='nominal' />
             <column-instance column='[bikeid]' derivation='None' name='[none:bikeid:ok]' pivot='key' type='ordinal' />
             <column caption='Start Station Name' datatype='string' name='[start station name]' role='dimension' type='nominal' />
             <column caption='Stoptime' datatype='datetime' name='[stoptime]' role='dimension' type='ordinal' />
@@ -11709,6 +11754,8 @@
             <column>[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[Action (Start Station Name)]</column>
             <column>[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[Action (MONTH(Stoptime))]</column>
             <column>[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[Action (WEEKDAY(Stoptime))]</column>
+            <column>[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[Action (Age Group)]</column>
+            <column>[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[none:Calculation_579838478923661312:nk]</column>
           </slices>
           <aggregation value='true' />
         </view>
@@ -11739,14 +11786,23 @@
             <datasource caption='201501-citibike-tripdata' name='federated.1mewo8x06ns2is1c3jf3m0rmrl03' />
           </datasources>
           <datasource-dependencies datasource='federated.1mewo8x06ns2is1c3jf3m0rmrl03'>
+            <column caption='GenderField' datatype='string' name='[Calculation_579838478923661312]' role='dimension' type='nominal'>
+              <calculation class='tableau' formula='CASE [gender]&#13;&#10;WHEN 1&#13;&#10;THEN &quot;Male&quot;&#13;&#10;WHEN  2&#13;&#10;THEN &quot;Female&quot;&#13;&#10;ELSE &quot;Unknown&quot;&#13;&#10;END' />
+            </column>
+            <column caption='Age Group' datatype='string' name='[Calculation_579838478932131841]' role='dimension' type='nominal'>
+              <calculation class='tableau' formula='IF [birth year] &lt; 1970 AND [birth year]&gt;1955&#13;&#10;THEN &quot;50-65s&quot;&#13;&#10;ELSEIF [birth year] &lt; 1980 AND [birth year]&gt;=1970&#13;&#10;THEN &quot;40s&quot;&#13;&#10;ELSEIF [birth year] &lt; 1990 AND [birth year]&gt;=1980&#13;&#10;THEN &quot;30s&quot;&#13;&#10;ELSEIF [birth year] &lt; 2000 AND [birth year]&gt;=1990&#13;&#10;THEN &quot;20s&quot;&#13;&#10;ELSEIF [birth year] &gt;=2000 AND [birth year] &lt; 2010&#13;&#10;THEN &quot;teenages&quot;&#13;&#10;ELSE &quot;65s and older&quot;&#13;&#10;END' />
+            </column>
             <column datatype='integer' name='[Number of Records]' role='measure' type='quantitative' user:auto-column='numrec'>
               <calculation class='tableau' formula='1' />
             </column>
             <column-instance column='[end station name]' derivation='Attribute' name='[attr:end station name:nk]' pivot='key' type='nominal' />
+            <column caption='Birth Year' datatype='integer' name='[birth year]' role='dimension' type='quantitative' />
             <column-instance column='[Number of Records]' derivation='Count' name='[cnt:Number of Records:qk]' pivot='key' type='quantitative' />
             <column caption='End Station Id' datatype='integer' name='[end station id]' role='measure' type='quantitative' />
             <column caption='End Station Name' datatype='string' name='[end station name]' role='dimension' type='nominal' />
+            <column caption='Gender' datatype='integer' name='[gender]' role='measure' type='quantitative' />
             <column-instance column='[stoptime]' derivation='Month' name='[mn:stoptime:ok]' pivot='key' type='ordinal' />
+            <column-instance column='[Calculation_579838478923661312]' derivation='None' name='[none:Calculation_579838478923661312:nk]' pivot='key' type='nominal' />
             <column-instance column='[end station id]' derivation='None' name='[none:end station id:ok]' pivot='key' type='ordinal' />
             <column caption='Start Station Name' datatype='string' name='[start station name]' role='dimension' type='nominal' />
             <column caption='Stoptime' datatype='datetime' name='[stoptime]' role='dimension' type='ordinal' />
@@ -11768,6 +11824,8 @@
             <column>[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[Action (Start Station Name)]</column>
             <column>[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[Action (MONTH(Stoptime))]</column>
             <column>[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[Action (WEEKDAY(Stoptime))]</column>
+            <column>[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[Action (Age Group)]</column>
+            <column>[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[none:Calculation_579838478923661312:nk]</column>
           </slices>
           <aggregation value='true' />
         </view>
@@ -11801,12 +11859,21 @@
             <datasource caption='201501-citibike-tripdata' name='federated.1mewo8x06ns2is1c3jf3m0rmrl03' />
           </datasources>
           <datasource-dependencies datasource='federated.1mewo8x06ns2is1c3jf3m0rmrl03'>
+            <column caption='GenderField' datatype='string' name='[Calculation_579838478923661312]' role='dimension' type='nominal'>
+              <calculation class='tableau' formula='CASE [gender]&#13;&#10;WHEN 1&#13;&#10;THEN &quot;Male&quot;&#13;&#10;WHEN  2&#13;&#10;THEN &quot;Female&quot;&#13;&#10;ELSE &quot;Unknown&quot;&#13;&#10;END' />
+            </column>
+            <column caption='Age Group' datatype='string' name='[Calculation_579838478932131841]' role='dimension' type='nominal'>
+              <calculation class='tableau' formula='IF [birth year] &lt; 1970 AND [birth year]&gt;1955&#13;&#10;THEN &quot;50-65s&quot;&#13;&#10;ELSEIF [birth year] &lt; 1980 AND [birth year]&gt;=1970&#13;&#10;THEN &quot;40s&quot;&#13;&#10;ELSEIF [birth year] &lt; 1990 AND [birth year]&gt;=1980&#13;&#10;THEN &quot;30s&quot;&#13;&#10;ELSEIF [birth year] &lt; 2000 AND [birth year]&gt;=1990&#13;&#10;THEN &quot;20s&quot;&#13;&#10;ELSEIF [birth year] &gt;=2000 AND [birth year] &lt; 2010&#13;&#10;THEN &quot;teenages&quot;&#13;&#10;ELSE &quot;65s and older&quot;&#13;&#10;END' />
+            </column>
             <column datatype='integer' name='[Number of Records]' role='measure' type='quantitative' user:auto-column='numrec'>
               <calculation class='tableau' formula='1' />
             </column>
             <column-instance column='[start station name]' derivation='Attribute' name='[attr:start station name:nk]' pivot='key' type='nominal' />
+            <column caption='Birth Year' datatype='integer' name='[birth year]' role='dimension' type='quantitative' />
             <column-instance column='[Number of Records]' derivation='Count' name='[cnt:Number of Records:qk]' pivot='key' type='quantitative' />
+            <column caption='Gender' datatype='integer' name='[gender]' role='measure' type='quantitative' />
             <column-instance column='[stoptime]' derivation='Month' name='[mn:stoptime:ok]' pivot='key' type='ordinal' />
+            <column-instance column='[Calculation_579838478923661312]' derivation='None' name='[none:Calculation_579838478923661312:nk]' pivot='key' type='nominal' />
             <column-instance column='[start station id]' derivation='None' name='[none:start station id:ok]' pivot='key' type='ordinal' />
             <column caption='Start Station Id' datatype='integer' name='[start station id]' role='measure' type='quantitative' />
             <column caption='Start Station Name' datatype='string' name='[start station name]' role='dimension' type='nominal' />
@@ -11828,6 +11895,8 @@
             <column>[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[Action (Start Station Name)]</column>
             <column>[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[Action (MONTH(Stoptime))]</column>
             <column>[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[Action (WEEKDAY(Stoptime))]</column>
+            <column>[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[Action (Age Group)]</column>
+            <column>[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[none:Calculation_579838478923661312:nk]</column>
           </slices>
           <aggregation value='true' />
         </view>
@@ -11875,17 +11944,26 @@
             <mapsource name='Tableau' />
           </mapsources>
           <datasource-dependencies datasource='federated.1mewo8x06ns2is1c3jf3m0rmrl03'>
+            <column caption='GenderField' datatype='string' name='[Calculation_579838478923661312]' role='dimension' type='nominal'>
+              <calculation class='tableau' formula='CASE [gender]&#13;&#10;WHEN 1&#13;&#10;THEN &quot;Male&quot;&#13;&#10;WHEN  2&#13;&#10;THEN &quot;Female&quot;&#13;&#10;ELSE &quot;Unknown&quot;&#13;&#10;END' />
+            </column>
+            <column caption='Age Group' datatype='string' name='[Calculation_579838478932131841]' role='dimension' type='nominal'>
+              <calculation class='tableau' formula='IF [birth year] &lt; 1970 AND [birth year]&gt;1955&#13;&#10;THEN &quot;50-65s&quot;&#13;&#10;ELSEIF [birth year] &lt; 1980 AND [birth year]&gt;=1970&#13;&#10;THEN &quot;40s&quot;&#13;&#10;ELSEIF [birth year] &lt; 1990 AND [birth year]&gt;=1980&#13;&#10;THEN &quot;30s&quot;&#13;&#10;ELSEIF [birth year] &lt; 2000 AND [birth year]&gt;=1990&#13;&#10;THEN &quot;20s&quot;&#13;&#10;ELSEIF [birth year] &gt;=2000 AND [birth year] &lt; 2010&#13;&#10;THEN &quot;teenages&quot;&#13;&#10;ELSE &quot;65s and older&quot;&#13;&#10;END' />
+            </column>
             <column datatype='integer' name='[Number of Records]' role='measure' type='quantitative' user:auto-column='numrec'>
               <calculation class='tableau' formula='1' />
             </column>
             <column-instance column='[end station id]' derivation='Attribute' name='[attr:end station id:qk]' pivot='key' type='quantitative' />
             <column-instance column='[end station name]' derivation='Attribute' name='[attr:end station name:nk]' pivot='key' type='nominal' />
+            <column caption='Birth Year' datatype='integer' name='[birth year]' role='dimension' type='quantitative' />
             <column-instance column='[Number of Records]' derivation='Count' name='[cnt:Number of Records:qk]' pivot='key' type='quantitative' />
             <column caption='End Station Id' datatype='integer' name='[end station id]' role='measure' type='quantitative' />
             <column aggregation='Avg' caption='End Station Latitude' datatype='real' name='[end station latitude]' role='measure' semantic-role='[Geographical].[Latitude]' type='quantitative' />
             <column aggregation='Avg' caption='End Station Longitude' datatype='real' name='[end station longitude]' role='measure' semantic-role='[Geographical].[Longitude]' type='quantitative' />
             <column caption='End Station Name' datatype='string' name='[end station name]' role='dimension' type='nominal' />
+            <column caption='Gender' datatype='integer' name='[gender]' role='measure' type='quantitative' />
             <column-instance column='[stoptime]' derivation='Month' name='[mn:stoptime:ok]' pivot='key' type='ordinal' />
+            <column-instance column='[Calculation_579838478923661312]' derivation='None' name='[none:Calculation_579838478923661312:nk]' pivot='key' type='nominal' />
             <column-instance column='[end station latitude]' derivation='None' name='[none:end station latitude:qk]' pivot='key' type='quantitative' />
             <column-instance column='[end station longitude]' derivation='None' name='[none:end station longitude:qk]' pivot='key' type='quantitative' />
             <column caption='Stoptime' datatype='datetime' name='[stoptime]' role='dimension' type='ordinal' />
@@ -11902,6 +11980,8 @@
             <column>[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[wd:stoptime:ok]</column>
             <column>[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[Action (WEEKDAY(Stoptime))]</column>
             <column>[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[Action (MONTH(Stoptime))]</column>
+            <column>[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[Action (Age Group)]</column>
+            <column>[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[none:Calculation_579838478923661312:nk]</column>
           </slices>
           <aggregation value='true' />
         </view>
@@ -11970,9 +12050,6 @@
             <column caption='Usertype' datatype='string' name='[usertype]' role='dimension' type='nominal' />
             <column-instance column='[stoptime]' derivation='Weekday' name='[wd:stoptime:ok]' pivot='key' type='ordinal' />
           </datasource-dependencies>
-          <filter class='categorical' column='[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[Action (Age Group)]'>
-            <groupfilter function='level-members' level='[Calculation_579838478932131841]' user:ui-action-filter='[Action1]' user:ui-enumeration='all' user:ui-marker='enumerate' />
-          </filter>
           <filter class='categorical' column='[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[Action (MONTH(Starttime))]'>
             <groupfilter function='level-members' level='[mn:starttime:ok]' user:ui-action-filter='[Action1]' user:ui-enumeration='all' user:ui-marker='enumerate' />
           </filter>
@@ -11984,9 +12061,6 @@
           </filter>
           <filter class='categorical' column='[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[Action (Usertype)]'>
             <groupfilter function='level-members' level='[usertype]' user:ui-action-filter='[Action1]' user:ui-enumeration='all' user:ui-marker='enumerate' />
-          </filter>
-          <filter class='categorical' column='[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[none:Calculation_579838478923661312:nk]'>
-            <groupfilter from='&quot;Female&quot;' function='range' level='[none:Calculation_579838478923661312:nk]' to='&quot;Unknown&quot;' user:ui-domain='relevant' user:ui-enumeration='inclusive' user:ui-marker='enumerate' />
           </filter>
           <slices>
             <column>[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[Action (Age Group)]</column>
@@ -12038,13 +12112,24 @@
             <datasource caption='201501-citibike-tripdata' name='federated.1mewo8x06ns2is1c3jf3m0rmrl03' />
           </datasources>
           <datasource-dependencies datasource='federated.1mewo8x06ns2is1c3jf3m0rmrl03'>
+            <column caption='GenderField' datatype='string' name='[Calculation_579838478923661312]' role='dimension' type='nominal'>
+              <calculation class='tableau' formula='CASE [gender]&#13;&#10;WHEN 1&#13;&#10;THEN &quot;Male&quot;&#13;&#10;WHEN  2&#13;&#10;THEN &quot;Female&quot;&#13;&#10;ELSE &quot;Unknown&quot;&#13;&#10;END' />
+            </column>
+            <column caption='Age Group' datatype='string' name='[Calculation_579838478932131841]' role='dimension' type='nominal'>
+              <calculation class='tableau' formula='IF [birth year] &lt; 1970 AND [birth year]&gt;1955&#13;&#10;THEN &quot;50-65s&quot;&#13;&#10;ELSEIF [birth year] &lt; 1980 AND [birth year]&gt;=1970&#13;&#10;THEN &quot;40s&quot;&#13;&#10;ELSEIF [birth year] &lt; 1990 AND [birth year]&gt;=1980&#13;&#10;THEN &quot;30s&quot;&#13;&#10;ELSEIF [birth year] &lt; 2000 AND [birth year]&gt;=1990&#13;&#10;THEN &quot;20s&quot;&#13;&#10;ELSEIF [birth year] &gt;=2000 AND [birth year] &lt; 2010&#13;&#10;THEN &quot;teenages&quot;&#13;&#10;ELSE &quot;65s and older&quot;&#13;&#10;END' />
+            </column>
+            <column caption='Birth Year' datatype='integer' name='[birth year]' role='dimension' type='quantitative' />
+            <column caption='Gender' datatype='integer' name='[gender]' role='measure' type='quantitative' />
             <column-instance column='[stoptime]' derivation='Month' name='[mn:stoptime:ok]' pivot='key' type='ordinal' />
+            <column-instance column='[Calculation_579838478923661312]' derivation='None' name='[none:Calculation_579838478923661312:nk]' pivot='key' type='nominal' />
             <column caption='Stoptime' datatype='datetime' name='[stoptime]' role='dimension' type='ordinal' />
             <column-instance column='[stoptime]' derivation='Weekday' name='[wd:stoptime:ok]' pivot='key' type='ordinal' />
           </datasource-dependencies>
           <slices>
             <column>[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[Action (WEEKDAY(Stoptime))]</column>
             <column>[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[Action (MONTH(Stoptime))]</column>
+            <column>[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[Action (Age Group)]</column>
+            <column>[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[none:Calculation_579838478923661312:nk]</column>
           </slices>
           <aggregation value='true' />
         </view>
@@ -12094,14 +12179,12 @@
             <column caption='Gender' datatype='integer' name='[gender]' role='measure' type='quantitative' />
             <column-instance column='[starttime]' derivation='Month' name='[mn:starttime:ok]' pivot='key' type='ordinal' />
             <column-instance column='[stoptime]' derivation='Month' name='[mn:stoptime:ok]' pivot='key' type='ordinal' />
+            <column-instance column='[Calculation_579838478923661312]' derivation='None' name='[none:Calculation_579838478923661312:nk]' pivot='key' type='nominal' />
             <column caption='Starttime' datatype='datetime' name='[starttime]' role='dimension' type='ordinal' />
             <column caption='Stoptime' datatype='datetime' name='[stoptime]' role='dimension' type='ordinal' />
             <column caption='Usertype' datatype='string' name='[usertype]' role='dimension' type='nominal' />
             <column-instance column='[stoptime]' derivation='Weekday' name='[wd:stoptime:ok]' pivot='key' type='ordinal' />
           </datasource-dependencies>
-          <filter class='categorical' column='[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[Action (Age Group)]'>
-            <groupfilter function='level-members' level='[Calculation_579838478932131841]' user:ui-action-filter='[Action1]' user:ui-enumeration='all' user:ui-marker='enumerate' />
-          </filter>
           <filter class='categorical' column='[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[Action (GenderField)]'>
             <groupfilter function='level-members' level='[Calculation_579838478923661312]' user:ui-action-filter='[Action1]' user:ui-enumeration='all' user:ui-marker='enumerate' />
           </filter>
@@ -12114,6 +12197,7 @@
             <column>[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[Action (Usertype)]</column>
             <column>[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[Action (MONTH(Stoptime))]</column>
             <column>[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[Action (WEEKDAY(Stoptime))]</column>
+            <column>[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[none:Calculation_579838478923661312:nk]</column>
           </slices>
           <aggregation value='true' />
         </view>
@@ -12149,9 +12233,13 @@
             <column caption='GenderField' datatype='string' name='[Calculation_579838478923661312]' role='dimension' type='nominal'>
               <calculation class='tableau' formula='CASE [gender]&#13;&#10;WHEN 1&#13;&#10;THEN &quot;Male&quot;&#13;&#10;WHEN  2&#13;&#10;THEN &quot;Female&quot;&#13;&#10;ELSE &quot;Unknown&quot;&#13;&#10;END' />
             </column>
+            <column caption='Age Group' datatype='string' name='[Calculation_579838478932131841]' role='dimension' type='nominal'>
+              <calculation class='tableau' formula='IF [birth year] &lt; 1970 AND [birth year]&gt;1955&#13;&#10;THEN &quot;50-65s&quot;&#13;&#10;ELSEIF [birth year] &lt; 1980 AND [birth year]&gt;=1970&#13;&#10;THEN &quot;40s&quot;&#13;&#10;ELSEIF [birth year] &lt; 1990 AND [birth year]&gt;=1980&#13;&#10;THEN &quot;30s&quot;&#13;&#10;ELSEIF [birth year] &lt; 2000 AND [birth year]&gt;=1990&#13;&#10;THEN &quot;20s&quot;&#13;&#10;ELSEIF [birth year] &gt;=2000 AND [birth year] &lt; 2010&#13;&#10;THEN &quot;teenages&quot;&#13;&#10;ELSE &quot;65s and older&quot;&#13;&#10;END' />
+            </column>
             <column datatype='integer' name='[Number of Records]' role='measure' type='quantitative' user:auto-column='numrec'>
               <calculation class='tableau' formula='1' />
             </column>
+            <column caption='Birth Year' datatype='integer' name='[birth year]' role='dimension' type='quantitative' />
             <column-instance column='[Number of Records]' derivation='Count' name='[cnt:Number of Records:qk]' pivot='key' type='quantitative' />
             <column-instance column='[end station id]' derivation='Count' name='[cnt:end station id:ok]' pivot='key' type='ordinal' />
             <column caption='End Station Id' datatype='integer' name='[end station id]' role='measure' type='quantitative' />
@@ -12178,9 +12266,6 @@
           <filter class='quantitative' column='[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[cnt:Number of Records:qk]' included-values='in-range'>
             <min>69454</min>
           </filter>
-          <filter class='categorical' column='[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[none:Calculation_579838478923661312:nk]'>
-            <groupfilter from='&quot;Female&quot;' function='range' level='[none:Calculation_579838478923661312:nk]' to='&quot;Unknown&quot;' user:ui-domain='relevant' user:ui-enumeration='inclusive' user:ui-marker='enumerate' />
-          </filter>
           <filter class='categorical' column='[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[none:end station name:nk]'>
             <groupfilter from='&quot;1 Ave &amp; E 15 St&quot;' function='range' level='[none:end station name:nk]' to='&quot;York St &amp; Jay St&quot;' user:ui-domain='relevant' user:ui-enumeration='inclusive' user:ui-marker='enumerate' />
           </filter>
@@ -12202,6 +12287,7 @@
             <column>[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[Action (MONTH(Starttime))]</column>
             <column>[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[Action (MONTH(Stoptime))]</column>
             <column>[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[Action (WEEKDAY(Stoptime))]</column>
+            <column>[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[Action (Age Group)]</column>
           </slices>
           <aggregation value='true' />
         </view>
@@ -12242,15 +12328,24 @@
             <datasource caption='201501-citibike-tripdata' name='federated.1mewo8x06ns2is1c3jf3m0rmrl03' />
           </datasources>
           <datasource-dependencies datasource='federated.1mewo8x06ns2is1c3jf3m0rmrl03'>
+            <column caption='GenderField' datatype='string' name='[Calculation_579838478923661312]' role='dimension' type='nominal'>
+              <calculation class='tableau' formula='CASE [gender]&#13;&#10;WHEN 1&#13;&#10;THEN &quot;Male&quot;&#13;&#10;WHEN  2&#13;&#10;THEN &quot;Female&quot;&#13;&#10;ELSE &quot;Unknown&quot;&#13;&#10;END' />
+            </column>
+            <column caption='Age Group' datatype='string' name='[Calculation_579838478932131841]' role='dimension' type='nominal'>
+              <calculation class='tableau' formula='IF [birth year] &lt; 1970 AND [birth year]&gt;1955&#13;&#10;THEN &quot;50-65s&quot;&#13;&#10;ELSEIF [birth year] &lt; 1980 AND [birth year]&gt;=1970&#13;&#10;THEN &quot;40s&quot;&#13;&#10;ELSEIF [birth year] &lt; 1990 AND [birth year]&gt;=1980&#13;&#10;THEN &quot;30s&quot;&#13;&#10;ELSEIF [birth year] &lt; 2000 AND [birth year]&gt;=1990&#13;&#10;THEN &quot;20s&quot;&#13;&#10;ELSEIF [birth year] &gt;=2000 AND [birth year] &lt; 2010&#13;&#10;THEN &quot;teenages&quot;&#13;&#10;ELSE &quot;65s and older&quot;&#13;&#10;END' />
+            </column>
             <column datatype='integer' name='[Number of Records]' role='measure' type='quantitative' user:auto-column='numrec'>
               <calculation class='tableau' formula='1' />
             </column>
             <column-instance column='[start station id]' derivation='Attribute' name='[attr:start station id:qk]' pivot='key' type='quantitative' />
             <column caption='Bikeid' datatype='integer' name='[bikeid]' role='dimension' type='ordinal' />
+            <column caption='Birth Year' datatype='integer' name='[birth year]' role='dimension' type='quantitative' />
             <column-instance column='[Number of Records]' derivation='Count' name='[cnt:Number of Records:qk]' pivot='key' type='quantitative' />
             <column caption='End Station Id' datatype='integer' name='[end station id]' role='measure' type='quantitative' />
             <column caption='End Station Name' datatype='string' name='[end station name]' role='dimension' type='nominal' />
+            <column caption='Gender' datatype='integer' name='[gender]' role='measure' type='quantitative' />
             <column-instance column='[stoptime]' derivation='Month' name='[mn:stoptime:ok]' pivot='key' type='ordinal' />
+            <column-instance column='[Calculation_579838478923661312]' derivation='None' name='[none:Calculation_579838478923661312:nk]' pivot='key' type='nominal' />
             <column-instance column='[bikeid]' derivation='None' name='[none:bikeid:ok]' pivot='key' type='ordinal' />
             <column-instance column='[end station id]' derivation='None' name='[none:end station id:ok]' pivot='key' type='ordinal' />
             <column-instance column='[start station name]' derivation='None' name='[none:start station name:nk]' pivot='key' type='nominal' />
@@ -12289,6 +12384,8 @@
             <column>[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[Action (End Station Id,End Station Name)]</column>
             <column>[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[Action (MONTH(Stoptime))]</column>
             <column>[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[Action (WEEKDAY(Stoptime))]</column>
+            <column>[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[Action (Age Group)]</column>
+            <column>[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[none:Calculation_579838478923661312:nk]</column>
           </slices>
           <aggregation value='true' />
         </view>
@@ -12334,17 +12431,26 @@
             <datasource caption='201501-citibike-tripdata' name='federated.1mewo8x06ns2is1c3jf3m0rmrl03' />
           </datasources>
           <datasource-dependencies datasource='federated.1mewo8x06ns2is1c3jf3m0rmrl03'>
+            <column caption='GenderField' datatype='string' name='[Calculation_579838478923661312]' role='dimension' type='nominal'>
+              <calculation class='tableau' formula='CASE [gender]&#13;&#10;WHEN 1&#13;&#10;THEN &quot;Male&quot;&#13;&#10;WHEN  2&#13;&#10;THEN &quot;Female&quot;&#13;&#10;ELSE &quot;Unknown&quot;&#13;&#10;END' />
+            </column>
+            <column caption='Age Group' datatype='string' name='[Calculation_579838478932131841]' role='dimension' type='nominal'>
+              <calculation class='tableau' formula='IF [birth year] &lt; 1970 AND [birth year]&gt;1955&#13;&#10;THEN &quot;50-65s&quot;&#13;&#10;ELSEIF [birth year] &lt; 1980 AND [birth year]&gt;=1970&#13;&#10;THEN &quot;40s&quot;&#13;&#10;ELSEIF [birth year] &lt; 1990 AND [birth year]&gt;=1980&#13;&#10;THEN &quot;30s&quot;&#13;&#10;ELSEIF [birth year] &lt; 2000 AND [birth year]&gt;=1990&#13;&#10;THEN &quot;20s&quot;&#13;&#10;ELSEIF [birth year] &gt;=2000 AND [birth year] &lt; 2010&#13;&#10;THEN &quot;teenages&quot;&#13;&#10;ELSE &quot;65s and older&quot;&#13;&#10;END' />
+            </column>
             <column datatype='integer' name='[Number of Records]' role='measure' type='quantitative' user:auto-column='numrec'>
               <calculation class='tableau' formula='1' />
             </column>
             <column-instance column='[start station name]' derivation='Attribute' name='[attr:start station name:nk]' pivot='key' type='nominal' />
             <column caption='Bikeid' datatype='integer' name='[bikeid]' role='dimension' type='ordinal' />
+            <column caption='Birth Year' datatype='integer' name='[birth year]' role='dimension' type='quantitative' />
             <column-instance column='[Number of Records]' derivation='Count' name='[cnt:Number of Records:qk]' pivot='key' type='quantitative' />
             <column caption='End Station Id' datatype='integer' name='[end station id]' role='measure' type='quantitative' />
             <column caption='End Station Name' datatype='string' name='[end station name]' role='dimension' type='nominal' />
+            <column caption='Gender' datatype='integer' name='[gender]' role='measure' type='quantitative' />
             <column-instance column='[starttime]' derivation='Hour' name='[hr:starttime:ok]' pivot='key' type='ordinal' />
             <column-instance column='[starttime]' derivation='Month' name='[mn:starttime:ok]' pivot='key' type='ordinal' />
             <column-instance column='[stoptime]' derivation='Month' name='[mn:stoptime:ok]' pivot='key' type='ordinal' />
+            <column-instance column='[Calculation_579838478923661312]' derivation='None' name='[none:Calculation_579838478923661312:nk]' pivot='key' type='nominal' />
             <column-instance column='[bikeid]' derivation='None' name='[none:bikeid:ok]' pivot='key' type='ordinal' />
             <column-instance column='[end station id]' derivation='None' name='[none:end station id:ok]' pivot='key' type='ordinal' />
             <column-instance column='[starttime]' derivation='Quarter' name='[qr:starttime:ok]' pivot='key' type='ordinal' />
@@ -12387,6 +12493,8 @@
             <column>[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[Action (HOUR(Starttime))]</column>
             <column>[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[Action (MONTH(Stoptime))]</column>
             <column>[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[Action (WEEKDAY(Stoptime))]</column>
+            <column>[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[Action (Age Group)]</column>
+            <column>[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[none:Calculation_579838478923661312:nk]</column>
           </slices>
           <aggregation value='true' />
         </view>
@@ -12448,6 +12556,7 @@
             <column caption='Gender' datatype='integer' name='[gender]' role='measure' type='quantitative' />
             <column-instance column='[starttime]' derivation='Hour' name='[hr:starttime:ok]' pivot='key' type='ordinal' />
             <column-instance column='[stoptime]' derivation='Month' name='[mn:stoptime:ok]' pivot='key' type='ordinal' />
+            <column-instance column='[Calculation_579838478923661312]' derivation='None' name='[none:Calculation_579838478923661312:nk]' pivot='key' type='nominal' />
             <column-instance column='[Calculation_579838478932131841]' derivation='None' name='[none:Calculation_579838478932131841:nk]' pivot='key' type='nominal' />
             <column caption='Starttime' datatype='datetime' name='[starttime]' role='dimension' type='ordinal' />
             <column caption='Stoptime' datatype='datetime' name='[stoptime]' role='dimension' type='ordinal' />
@@ -12471,6 +12580,8 @@
             <column>[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[Action (Age Group,HOUR(Starttime))]</column>
             <column>[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[Action (MONTH(Stoptime))]</column>
             <column>[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[Action (WEEKDAY(Stoptime))]</column>
+            <column>[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[Action (Age Group)]</column>
+            <column>[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[none:Calculation_579838478923661312:nk]</column>
           </slices>
           <aggregation value='true' />
         </view>
@@ -12529,9 +12640,6 @@
             <column caption='Tripduration' datatype='integer' name='[tripduration]' role='measure' type='quantitative' />
             <column-instance column='[stoptime]' derivation='Weekday' name='[wd:stoptime:ok]' pivot='key' type='ordinal' />
           </datasource-dependencies>
-          <filter class='categorical' column='[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[Action (Age Group)]'>
-            <groupfilter function='level-members' level='[Calculation_579838478932131841]' user:ui-action-filter='[Action17]' user:ui-enumeration='all' user:ui-marker='enumerate' />
-          </filter>
           <filter class='categorical' column='[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[Action (Age Group,HOUR(Starttime))]'>
             <groupfilter function='crossjoin' user:ui-action-filter='[Action16]' user:ui-enumeration='all' user:ui-marker='enumerate'>
               <groupfilter function='level-members' level='[Calculation_579838478932131841]' />
@@ -12543,6 +12651,7 @@
             <column>[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[Action (Age Group,HOUR(Starttime))]</column>
             <column>[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[Action (MONTH(Stoptime))]</column>
             <column>[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[Action (WEEKDAY(Stoptime))]</column>
+            <column>[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[none:Calculation_579838478923661312:nk]</column>
           </slices>
           <aggregation value='true' />
         </view>
@@ -12603,7 +12712,16 @@
             <column caption='Weekday' datatype='integer' name='[Calculation_1046805465877495811]' role='measure' type='quantitative'>
               <calculation class='tableau' formula='1' />
             </column>
+            <column caption='GenderField' datatype='string' name='[Calculation_579838478923661312]' role='dimension' type='nominal'>
+              <calculation class='tableau' formula='CASE [gender]&#13;&#10;WHEN 1&#13;&#10;THEN &quot;Male&quot;&#13;&#10;WHEN  2&#13;&#10;THEN &quot;Female&quot;&#13;&#10;ELSE &quot;Unknown&quot;&#13;&#10;END' />
+            </column>
+            <column caption='Age Group' datatype='string' name='[Calculation_579838478932131841]' role='dimension' type='nominal'>
+              <calculation class='tableau' formula='IF [birth year] &lt; 1970 AND [birth year]&gt;1955&#13;&#10;THEN &quot;50-65s&quot;&#13;&#10;ELSEIF [birth year] &lt; 1980 AND [birth year]&gt;=1970&#13;&#10;THEN &quot;40s&quot;&#13;&#10;ELSEIF [birth year] &lt; 1990 AND [birth year]&gt;=1980&#13;&#10;THEN &quot;30s&quot;&#13;&#10;ELSEIF [birth year] &lt; 2000 AND [birth year]&gt;=1990&#13;&#10;THEN &quot;20s&quot;&#13;&#10;ELSEIF [birth year] &gt;=2000 AND [birth year] &lt; 2010&#13;&#10;THEN &quot;teenages&quot;&#13;&#10;ELSE &quot;65s and older&quot;&#13;&#10;END' />
+            </column>
+            <column caption='Birth Year' datatype='integer' name='[birth year]' role='dimension' type='quantitative' />
+            <column caption='Gender' datatype='integer' name='[gender]' role='measure' type='quantitative' />
             <column-instance column='[stoptime]' derivation='Month' name='[mn:stoptime:ok]' pivot='key' type='ordinal' />
+            <column-instance column='[Calculation_579838478923661312]' derivation='None' name='[none:Calculation_579838478923661312:nk]' pivot='key' type='nominal' />
             <column caption='Stoptime' datatype='datetime' name='[stoptime]' role='dimension' type='ordinal' />
             <column-instance column='[Calculation_1046805465877495811]' derivation='Sum' name='[sum:Calculation_1046805465877495811:qk]' pivot='key' type='quantitative' />
             <column-instance column='[stoptime]' derivation='Weekday' name='[wd:stoptime:ok]' pivot='key' type='ordinal' />
@@ -12611,6 +12729,8 @@
           <slices>
             <column>[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[Action (MONTH(Stoptime))]</column>
             <column>[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[Action (WEEKDAY(Stoptime))]</column>
+            <column>[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[Action (Age Group)]</column>
+            <column>[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[none:Calculation_579838478923661312:nk]</column>
           </slices>
           <aggregation value='true' />
         </view>
@@ -12656,14 +12776,23 @@
             <datasource caption='201501-citibike-tripdata' name='federated.1mewo8x06ns2is1c3jf3m0rmrl03' />
           </datasources>
           <datasource-dependencies datasource='federated.1mewo8x06ns2is1c3jf3m0rmrl03'>
+            <column caption='GenderField' datatype='string' name='[Calculation_579838478923661312]' role='dimension' type='nominal'>
+              <calculation class='tableau' formula='CASE [gender]&#13;&#10;WHEN 1&#13;&#10;THEN &quot;Male&quot;&#13;&#10;WHEN  2&#13;&#10;THEN &quot;Female&quot;&#13;&#10;ELSE &quot;Unknown&quot;&#13;&#10;END' />
+            </column>
+            <column caption='Age Group' datatype='string' name='[Calculation_579838478932131841]' role='dimension' type='nominal'>
+              <calculation class='tableau' formula='IF [birth year] &lt; 1970 AND [birth year]&gt;1955&#13;&#10;THEN &quot;50-65s&quot;&#13;&#10;ELSEIF [birth year] &lt; 1980 AND [birth year]&gt;=1970&#13;&#10;THEN &quot;40s&quot;&#13;&#10;ELSEIF [birth year] &lt; 1990 AND [birth year]&gt;=1980&#13;&#10;THEN &quot;30s&quot;&#13;&#10;ELSEIF [birth year] &lt; 2000 AND [birth year]&gt;=1990&#13;&#10;THEN &quot;20s&quot;&#13;&#10;ELSEIF [birth year] &gt;=2000 AND [birth year] &lt; 2010&#13;&#10;THEN &quot;teenages&quot;&#13;&#10;ELSE &quot;65s and older&quot;&#13;&#10;END' />
+            </column>
             <column datatype='integer' name='[Number of Records]' role='measure' type='quantitative' user:auto-column='numrec'>
               <calculation class='tableau' formula='1' />
             </column>
             <column caption='Bikeid' datatype='integer' name='[bikeid]' role='dimension' type='ordinal' />
+            <column caption='Birth Year' datatype='integer' name='[birth year]' role='dimension' type='quantitative' />
             <column-instance column='[Number of Records]' derivation='Count' name='[cnt:Number of Records:qk]' pivot='key' type='quantitative' />
+            <column caption='Gender' datatype='integer' name='[gender]' role='measure' type='quantitative' />
             <column-instance column='[starttime]' derivation='Hour' name='[hr:starttime:ok]' pivot='key' type='ordinal' />
             <column-instance column='[starttime]' derivation='Month' name='[mn:starttime:ok]' pivot='key' type='ordinal' />
             <column-instance column='[stoptime]' derivation='Month' name='[mn:stoptime:ok]' pivot='key' type='ordinal' />
+            <column-instance column='[Calculation_579838478923661312]' derivation='None' name='[none:Calculation_579838478923661312:nk]' pivot='key' type='nominal' />
             <column-instance column='[Number of Records]' derivation='Count' name='[pcto:cnt:Number of Records:qk]' pivot='key' type='quantitative'>
               <table-calc ordering-type='Rows' type='PctTotal' />
             </column-instance>
@@ -12687,6 +12816,8 @@
             <column>[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[Action (MONTH(Starttime))]</column>
             <column>[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[Action (MONTH(Stoptime))]</column>
             <column>[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[Action (WEEKDAY(Stoptime))]</column>
+            <column>[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[Action (Age Group)]</column>
+            <column>[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[none:Calculation_579838478923661312:nk]</column>
           </slices>
           <aggregation value='true' />
         </view>
@@ -12738,6 +12869,7 @@
             <column caption='Gender' datatype='integer' name='[gender]' role='measure' type='quantitative' />
             <column-instance column='[starttime]' derivation='Month' name='[mn:starttime:ok]' pivot='key' type='ordinal' />
             <column-instance column='[stoptime]' derivation='Month' name='[mn:stoptime:ok]' pivot='key' type='ordinal' />
+            <column-instance column='[Calculation_579838478923661312]' derivation='None' name='[none:Calculation_579838478923661312:nk]' pivot='key' type='nominal' />
             <column-instance column='[usertype]' derivation='None' name='[none:usertype:nk]' pivot='key' type='nominal' />
             <column-instance column='[Number of Records]' derivation='Count' name='[pcto:cnt:Number of Records:qk]' pivot='key' type='quantitative'>
               <table-calc ordering-type='Rows' type='PctTotal' />
@@ -12747,9 +12879,6 @@
             <column caption='Usertype' datatype='string' name='[usertype]' role='dimension' type='nominal' />
             <column-instance column='[stoptime]' derivation='Weekday' name='[wd:stoptime:ok]' pivot='key' type='ordinal' />
           </datasource-dependencies>
-          <filter class='categorical' column='[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[Action (Age Group)]'>
-            <groupfilter function='level-members' level='[Calculation_579838478932131841]' user:ui-action-filter='[Action1]' user:ui-enumeration='all' user:ui-marker='enumerate' />
-          </filter>
           <filter class='categorical' column='[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[Action (GenderField)]'>
             <groupfilter function='level-members' level='[Calculation_579838478923661312]' user:ui-action-filter='[Action1]' user:ui-enumeration='all' user:ui-marker='enumerate' />
           </filter>
@@ -12773,6 +12902,7 @@
             <column>[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[Action (MONTH(Starttime))]</column>
             <column>[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[Action (MONTH(Stoptime))]</column>
             <column>[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[Action (WEEKDAY(Stoptime))]</column>
+            <column>[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[none:Calculation_579838478923661312:nk]</column>
           </slices>
           <aggregation value='true' />
         </view>
@@ -12969,11 +13099,66 @@
       </layout-options>
       <style />
       <size maxheight='800' maxwidth='1000' minheight='800' minwidth='1000' />
+      <datasources>
+        <datasource caption='201501-citibike-tripdata' name='federated.1mewo8x06ns2is1c3jf3m0rmrl03' />
+      </datasources>
+      <datasource-dependencies datasource='federated.1mewo8x06ns2is1c3jf3m0rmrl03'>
+        <column caption='GenderField' datatype='string' name='[Calculation_579838478923661312]' role='dimension' type='nominal'>
+          <calculation class='tableau' formula='CASE [gender]&#13;&#10;WHEN 1&#13;&#10;THEN &quot;Male&quot;&#13;&#10;WHEN  2&#13;&#10;THEN &quot;Female&quot;&#13;&#10;ELSE &quot;Unknown&quot;&#13;&#10;END' />
+        </column>
+        <column-instance column='[Calculation_579838478923661312]' derivation='None' name='[none:Calculation_579838478923661312:nk]' pivot='key' type='nominal' />
+      </datasource-dependencies>
       <zones>
         <zone h='100000' id='2' type='layout-basic' w='100000' x='0' y='0'>
-          <zone h='98000' id='8' param='horz' type='layout-flow' w='98400' x='800' y='1000'>
-            <zone h='98000' id='3' param='vert' type='layout-flow' w='87800' x='800' y='1000'>
-              <zone h='5625' id='5' type='title' w='87800' x='800' y='1000'>
+          <zone h='98000' id='33' param='horz' type='layout-flow' w='98400' x='800' y='1000'>
+            <zone h='98000' id='8' param='horz' type='layout-flow' w='82400' x='800' y='1000'>
+              <zone h='98000' id='3' param='vert' type='layout-flow' w='82400' x='800' y='1000'>
+                <zone h='5625' id='5' type='title' w='82400' x='800' y='1000'>
+                  <zone-style>
+                    <format attr='border-color' value='#000000' />
+                    <format attr='border-style' value='none' />
+                    <format attr='border-width' value='0' />
+                    <format attr='margin' value='4' />
+                  </zone-style>
+                </zone>
+                <zone h='92375' id='4' type='layout-basic' w='82400' x='800' y='6625'>
+                  <zone h='36812' id='6' name='Tripduration Changed vs Age Group' w='41200' x='800' y='6625'>
+                    <zone-style>
+                      <format attr='border-color' value='#000000' />
+                      <format attr='border-style' value='none' />
+                      <format attr='border-width' value='0' />
+                      <format attr='margin' value='4' />
+                    </zone-style>
+                  </zone>
+                  <zone h='46188' id='10' name='Tripduration/trip ' w='41200' x='42000' y='6625'>
+                    <zone-style>
+                      <format attr='border-color' value='#000000' />
+                      <format attr='border-style' value='none' />
+                      <format attr='border-width' value='0' />
+                      <format attr='margin' value='4' />
+                    </zone-style>
+                  </zone>
+                  <zone h='46187' id='12' name='Age_group starttime' w='82400' x='800' y='52813'>
+                    <zone-style>
+                      <format attr='border-color' value='#000000' />
+                      <format attr='border-style' value='none' />
+                      <format attr='border-width' value='0' />
+                      <format attr='margin' value='4' />
+                    </zone-style>
+                  </zone>
+                  <zone fixed-size='430' h='9376' id='9' is-fixed='true' name='Tripduration Changed vs Age Group' pane-specification-id='2' param='[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[none:Calculation_579838478932131841:nk]' type='color' w='41200' x='800' y='43437'>
+                    <zone-style>
+                      <format attr='border-color' value='#000000' />
+                      <format attr='border-style' value='none' />
+                      <format attr='border-width' value='0' />
+                      <format attr='margin' value='4' />
+                    </zone-style>
+                  </zone>
+                </zone>
+              </zone>
+            </zone>
+            <zone fixed-size='160' h='98000' id='32' is-fixed='true' param='vert' type='layout-flow' w='16000' x='83200' y='1000'>
+              <zone h='25750' id='34' mode='checklist' name='Tripduration Changed vs Age Group' param='[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[Action (WEEKDAY(Stoptime))]' type='filter' values='database' w='16000' x='83200' y='1000'>
                 <zone-style>
                   <format attr='border-color' value='#000000' />
                   <format attr='border-style' value='none' />
@@ -12981,43 +13166,31 @@
                   <format attr='margin' value='4' />
                 </zone-style>
               </zone>
-              <zone h='92375' id='4' type='layout-basic' w='87800' x='800' y='6625'>
-                <zone h='36813' id='6' name='Tripduration Changed vs Age Group' w='43900' x='800' y='6625'>
-                  <zone-style>
-                    <format attr='border-color' value='#000000' />
-                    <format attr='border-style' value='none' />
-                    <format attr='border-width' value='0' />
-                    <format attr='margin' value='4' />
-                  </zone-style>
-                </zone>
-                <zone h='46188' id='10' name='Tripduration/trip ' w='43900' x='44700' y='6625'>
-                  <zone-style>
-                    <format attr='border-color' value='#000000' />
-                    <format attr='border-style' value='none' />
-                    <format attr='border-width' value='0' />
-                    <format attr='margin' value='4' />
-                  </zone-style>
-                </zone>
-                <zone h='46187' id='12' name='Age_group starttime' w='87800' x='800' y='52813'>
-                  <zone-style>
-                    <format attr='border-color' value='#000000' />
-                    <format attr='border-style' value='none' />
-                    <format attr='border-width' value='0' />
-                    <format attr='margin' value='4' />
-                  </zone-style>
-                </zone>
-                <zone fixed-size='430' h='9375' id='9' is-fixed='true' name='Tripduration Changed vs Age Group' pane-specification-id='2' param='[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[none:Calculation_579838478932131841:nk]' type='color' w='43900' x='800' y='43438'>
-                  <zone-style>
-                    <format attr='border-color' value='#000000' />
-                    <format attr='border-style' value='none' />
-                    <format attr='border-width' value='0' />
-                    <format attr='margin' value='4' />
-                  </zone-style>
-                </zone>
+              <zone h='14750' id='39' name='Tripduration/trip ' param='[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[none:Calculation_579838478923661312:nk]' type='filter' values='database' w='16000' x='83200' y='26750'>
+                <zone-style>
+                  <format attr='border-color' value='#000000' />
+                  <format attr='border-style' value='none' />
+                  <format attr='border-width' value='0' />
+                  <format attr='margin' value='4' />
+                </zone-style>
               </zone>
-            </zone>
-            <zone fixed-size='106' h='98000' id='7' is-fixed='true' param='vert' type='layout-flow' w='10600' x='88600' y='1000'>
-              <zone forceUpdate='true' h='75125' id='13' type='text' w='10600' x='88600' y='1000'>
+              <zone h='6875' id='35' mode='checkdropdown' name='Tripduration/trip ' param='[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[Action (Age Group)]' type='filter' values='database' w='16000' x='83200' y='41500'>
+                <zone-style>
+                  <format attr='border-color' value='#000000' />
+                  <format attr='border-style' value='none' />
+                  <format attr='border-width' value='0' />
+                  <format attr='margin' value='4' />
+                </zone-style>
+              </zone>
+              <zone h='6875' id='36' mode='checkdropdown' name='Age_group starttime' param='[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[Action (MONTH(Stoptime))]' type='filter' values='database' w='16000' x='83200' y='48375'>
+                <zone-style>
+                  <format attr='border-color' value='#000000' />
+                  <format attr='border-style' value='none' />
+                  <format attr='border-width' value='0' />
+                  <format attr='margin' value='4' />
+                </zone-style>
+              </zone>
+              <zone forceUpdate='true' h='43750' id='13' type='text' w='16000' x='83200' y='55250'>
                 <formatted-text>
                   <run bold='true' fontalignment='0' fontcolor='#b07aa1' fontsize='9'>Unexpected Phenomena</run>
                   <run fontalignment='0'>Æ&#10;</run>
@@ -13049,11 +13222,11 @@
               </formatted-text>
             </title>
           </layout-options>
-          <size maxheight='1100' minheight='1100' sizing-mode='vscroll' />
+          <size maxheight='1300' minheight='1300' sizing-mode='vscroll' />
           <zones>
-            <zone h='100000' id='31' type='layout-basic' w='100000' x='0' y='0'>
-              <zone h='98000' id='30' param='vert' type='layout-flow' w='98400' x='800' y='1000'>
-                <zone h='5625' id='5' type='title' w='87800' x='800' y='1000'>
+            <zone h='100000' id='41' type='layout-basic' w='100000' x='0' y='0'>
+              <zone h='98000' id='40' param='vert' type='layout-flow' w='98400' x='800' y='1000'>
+                <zone h='5625' id='5' type='title' w='82400' x='800' y='1000'>
                   <zone-style>
                     <format attr='border-color' value='#000000' />
                     <format attr='border-style' value='none' />
@@ -13062,48 +13235,84 @@
                     <format attr='padding' value='0' />
                   </zone-style>
                 </zone>
-                <zone forceUpdate='true' h='75125' id='13' type='text' w='10600' x='88600' y='1000'>
+                <zone h='25750' id='34' mode='checkdropdown' name='Tripduration Changed vs Age Group' param='[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[Action (WEEKDAY(Stoptime))]' type='filter' values='database' w='16000' x='83200' y='1000'>
+                  <zone-style>
+                    <format attr='border-color' value='#000000' />
+                    <format attr='border-style' value='none' />
+                    <format attr='border-width' value='0' />
+                    <format attr='margin' value='4' />
+                    <format attr='padding' value='0' />
+                  </zone-style>
+                </zone>
+                <zone fixed-size='280' h='36812' id='6' is-fixed='true' name='Tripduration Changed vs Age Group' w='41200' x='800' y='6625'>
+                  <zone-style>
+                    <format attr='border-color' value='#000000' />
+                    <format attr='border-style' value='none' />
+                    <format attr='border-width' value='0' />
+                    <format attr='margin' value='4' />
+                    <format attr='padding' value='0' />
+                  </zone-style>
+                </zone>
+                <zone fixed-size='430' h='9376' id='9' name='Tripduration Changed vs Age Group' pane-specification-id='2' param='[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[none:Calculation_579838478932131841:nk]' type='color' w='41200' x='800' y='43437'>
+                  <zone-style>
+                    <format attr='border-color' value='#000000' />
+                    <format attr='border-style' value='none' />
+                    <format attr='border-width' value='0' />
+                    <format attr='margin' value='4' />
+                    <format attr='padding' value='0' />
+                  </zone-style>
+                </zone>
+                <zone h='14750' id='39' mode='checkdropdown' name='Tripduration/trip ' param='[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[none:Calculation_579838478923661312:nk]' type='filter' values='database' w='16000' x='83200' y='26750'>
+                  <zone-style>
+                    <format attr='border-color' value='#000000' />
+                    <format attr='border-style' value='none' />
+                    <format attr='border-width' value='0' />
+                    <format attr='margin' value='4' />
+                    <format attr='padding' value='0' />
+                  </zone-style>
+                </zone>
+                <zone h='6875' id='35' mode='checkdropdown' name='Tripduration/trip ' param='[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[Action (Age Group)]' type='filter' values='database' w='16000' x='83200' y='41500'>
+                  <zone-style>
+                    <format attr='border-color' value='#000000' />
+                    <format attr='border-style' value='none' />
+                    <format attr='border-width' value='0' />
+                    <format attr='margin' value='4' />
+                    <format attr='padding' value='0' />
+                  </zone-style>
+                </zone>
+                <zone fixed-size='280' h='46188' id='10' is-fixed='true' name='Tripduration/trip ' w='41200' x='42000' y='6625'>
+                  <zone-style>
+                    <format attr='border-color' value='#000000' />
+                    <format attr='border-style' value='none' />
+                    <format attr='border-width' value='0' />
+                    <format attr='margin' value='4' />
+                    <format attr='padding' value='0' />
+                  </zone-style>
+                </zone>
+                <zone h='6875' id='36' mode='checkdropdown' name='Age_group starttime' param='[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[Action (MONTH(Stoptime))]' type='filter' values='database' w='16000' x='83200' y='48375'>
+                  <zone-style>
+                    <format attr='border-color' value='#000000' />
+                    <format attr='border-style' value='none' />
+                    <format attr='border-width' value='0' />
+                    <format attr='margin' value='4' />
+                    <format attr='padding' value='0' />
+                  </zone-style>
+                </zone>
+                <zone fixed-size='280' h='46187' id='12' is-fixed='true' name='Age_group starttime' w='82400' x='800' y='52813'>
+                  <zone-style>
+                    <format attr='border-color' value='#000000' />
+                    <format attr='border-style' value='none' />
+                    <format attr='border-width' value='0' />
+                    <format attr='margin' value='4' />
+                    <format attr='padding' value='0' />
+                  </zone-style>
+                </zone>
+                <zone forceUpdate='true' h='43750' id='13' type='text' w='16000' x='83200' y='55250'>
                   <formatted-text>
                     <run bold='true' fontalignment='0' fontcolor='#b07aa1' fontsize='9'>Unexpected Phenomena</run>
                     <run fontalignment='0'>Æ&#10;</run>
                     <run bold='true' fontalignment='0' fontsize='9'>65  and olde&apos;s  group are active from 1pm to 5pm versus other groups are active at 8-9am and 5-6pm. This group average tripduration is 28.4 minutes which is much higher than the other age groups less than 15 minutes.  Per data, it is because the unknown gender member&apos;s average tripduration is 32.9 minutes. </run>
                   </formatted-text>
-                  <zone-style>
-                    <format attr='border-color' value='#000000' />
-                    <format attr='border-style' value='none' />
-                    <format attr='border-width' value='0' />
-                    <format attr='margin' value='4' />
-                    <format attr='padding' value='0' />
-                  </zone-style>
-                </zone>
-                <zone fixed-size='280' h='36813' id='6' is-fixed='true' name='Tripduration Changed vs Age Group' w='43900' x='800' y='6625'>
-                  <zone-style>
-                    <format attr='border-color' value='#000000' />
-                    <format attr='border-style' value='none' />
-                    <format attr='border-width' value='0' />
-                    <format attr='margin' value='4' />
-                    <format attr='padding' value='0' />
-                  </zone-style>
-                </zone>
-                <zone fixed-size='430' h='9375' id='9' name='Tripduration Changed vs Age Group' pane-specification-id='2' param='[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[none:Calculation_579838478932131841:nk]' type='color' w='43900' x='800' y='43438'>
-                  <zone-style>
-                    <format attr='border-color' value='#000000' />
-                    <format attr='border-style' value='none' />
-                    <format attr='border-width' value='0' />
-                    <format attr='margin' value='4' />
-                    <format attr='padding' value='0' />
-                  </zone-style>
-                </zone>
-                <zone fixed-size='280' h='46188' id='10' is-fixed='true' name='Tripduration/trip ' w='43900' x='44700' y='6625'>
-                  <zone-style>
-                    <format attr='border-color' value='#000000' />
-                    <format attr='border-style' value='none' />
-                    <format attr='border-width' value='0' />
-                    <format attr='margin' value='4' />
-                    <format attr='padding' value='0' />
-                  </zone-style>
-                </zone>
-                <zone fixed-size='280' h='46187' id='12' is-fixed='true' name='Age_group starttime' w='87800' x='800' y='52813'>
                   <zone-style>
                     <format attr='border-color' value='#000000' />
                     <format attr='border-style' value='none' />
@@ -13133,8 +13342,8 @@
         <devicelayout auto-generated='true' name='Phone'>
           <size maxheight='700' minheight='700' sizing-mode='vscroll' />
           <zones>
-            <zone h='100000' id='2' type='layout-basic' w='100000' x='0' y='0'>
-              <zone h='98000' id='1' param='vert' type='layout-flow' w='98400' x='800' y='1000' />
+            <zone h='100000' id='6' type='layout-basic' w='100000' x='0' y='0'>
+              <zone h='84000' id='5' param='vert' type='layout-flow' w='84000' x='8000' y='8000' />
               <zone-style>
                 <format attr='border-color' value='#000000' />
                 <format attr='border-style' value='none' />
@@ -13205,8 +13414,8 @@
         <devicelayout auto-generated='true' name='Phone'>
           <size maxheight='700' minheight='700' sizing-mode='vscroll' />
           <zones>
-            <zone h='100000' id='23' type='layout-basic' w='100000' x='0' y='0'>
-              <zone h='98000' id='22' param='vert' type='layout-flow' w='98400' x='800' y='1000'>
+            <zone h='100000' id='27' type='layout-basic' w='100000' x='0' y='0'>
+              <zone h='84000' id='26' param='vert' type='layout-flow' w='84000' x='8000' y='8000'>
                 <zone fixed-size='40' h='6000' id='9' is-fixed='true' name='Weekday' show-title='false' w='83300' x='800' y='1000'>
                   <zone-style>
                     <format attr='border-color' value='#000000' />
@@ -13371,8 +13580,8 @@
           </layout-options>
           <size maxheight='1400' minheight='1400' sizing-mode='vscroll' />
           <zones>
-            <zone h='100000' id='41' type='layout-basic' w='100000' x='0' y='0'>
-              <zone h='98000' id='40' param='vert' type='layout-flow' w='98400' x='800' y='1000'>
+            <zone h='100000' id='45' type='layout-basic' w='100000' x='0' y='0'>
+              <zone h='84000' id='44' param='vert' type='layout-flow' w='84000' x='8000' y='8000'>
                 <zone h='5250' id='15' type='title' w='82400' x='800' y='1000'>
                   <zone-style>
                     <format attr='border-color' value='#000000' />
@@ -13557,8 +13766,8 @@
           </layout-options>
           <size maxheight='1100' minheight='1100' sizing-mode='vscroll' />
           <zones>
-            <zone h='100000' id='35' type='layout-basic' w='100000' x='0' y='0'>
-              <zone h='98000' id='34' param='vert' type='layout-flow' w='98400' x='800' y='1000'>
+            <zone h='100000' id='39' type='layout-basic' w='100000' x='0' y='0'>
+              <zone h='84000' id='38' param='vert' type='layout-flow' w='84000' x='8000' y='8000'>
                 <zone h='5250' id='15' type='title' w='98400' x='800' y='1000'>
                   <zone-style>
                     <format attr='border-color' value='#000000' />
@@ -13708,9 +13917,9 @@
         <devicelayout auto-generated='true' name='Phone'>
           <size maxheight='700' minheight='700' sizing-mode='vscroll' />
           <zones>
-            <zone h='100000' id='28' type='layout-basic' w='100000' x='0' y='0'>
-              <zone h='98000' id='27' param='vert' type='layout-flow' w='98400' x='800' y='1000'>
-                <zone fixed-size='280' h='86601' id='3' is-fixed='true' name='End Station Map' w='82400' x='800' y='12399'>
+            <zone h='100000' id='37' type='layout-basic' w='100000' x='0' y='0'>
+              <zone h='98000' id='36' param='vert' type='layout-flow' w='98400' x='800' y='1000'>
+                <zone h='15375' id='29' mode='checkdropdown' name='End Station Map' param='[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[Action (MONTH(Stoptime))]' type='filter' values='database' w='16001' x='83199' y='1000'>
                   <zone-style>
                     <format attr='border-color' value='#000000' />
                     <format attr='border-style' value='none' />
@@ -13719,7 +13928,7 @@
                     <format attr='padding' value='0' />
                   </zone-style>
                 </zone>
-                <zone h='18000' id='8' name='End Station Map' pane-specification-id='2' param='[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[cnt:Number of Records:qk]' type='size' w='16000' x='83200' y='6875'>
+                <zone h='27875' id='33' mode='checkdropdown' name='End Station Map' param='[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[Action (WEEKDAY(Stoptime))]' type='filter' values='database' w='16001' x='83199' y='16375'>
                   <zone-style>
                     <format attr='border-color' value='#000000' />
                     <format attr='border-style' value='none' />
@@ -13728,7 +13937,7 @@
                     <format attr='padding' value='0' />
                   </zone-style>
                 </zone>
-                <zone h='7625' id='9' name='End Station Map' pane-specification-id='2' param='[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[cnt:Number of Records:qk]' type='color' w='16000' x='83200' y='24875'>
+                <zone fixed-size='280' h='98000' id='3' is-fixed='true' name='End Station Map' w='82399' x='800' y='1000'>
                   <zone-style>
                     <format attr='border-color' value='#000000' />
                     <format attr='border-style' value='none' />
@@ -13737,7 +13946,25 @@
                     <format attr='padding' value='0' />
                   </zone-style>
                 </zone>
-                <zone forceUpdate='true' h='20750' id='12' type='text' w='16000' x='83200' y='32500'>
+                <zone h='18875' id='8' name='End Station Map' pane-specification-id='2' param='[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[cnt:Number of Records:qk]' type='size' w='16001' x='83199' y='80125'>
+                  <zone-style>
+                    <format attr='border-color' value='#000000' />
+                    <format attr='border-style' value='none' />
+                    <format attr='border-width' value='0' />
+                    <format attr='margin' value='4' />
+                    <format attr='padding' value='0' />
+                  </zone-style>
+                </zone>
+                <zone h='10375' id='9' name='End Station Map' pane-specification-id='2' param='[federated.1mewo8x06ns2is1c3jf3m0rmrl03].[cnt:Number of Records:qk]' type='color' w='16001' x='83199' y='69750'>
+                  <zone-style>
+                    <format attr='border-color' value='#000000' />
+                    <format attr='border-style' value='none' />
+                    <format attr='border-width' value='0' />
+                    <format attr='margin' value='4' />
+                    <format attr='padding' value='0' />
+                  </zone-style>
+                </zone>
+                <zone forceUpdate='true' h='25500' id='12' type='text' w='16001' x='83199' y='44250'>
                   <formatted-text>
                     <run bold='true' fontcolor='#f28e2b'>Trend</run>
                     <run>Æ&#10;</run>
@@ -13895,8 +14122,8 @@
           </layout-options>
           <size maxheight='1600' minheight='1600' sizing-mode='vscroll' />
           <zones>
-            <zone h='100000' id='52' type='layout-basic' w='100000' x='0' y='0'>
-              <zone h='98000' id='51' param='vert' type='layout-flow' w='98400' x='800' y='1000'>
+            <zone h='100000' id='56' type='layout-basic' w='100000' x='0' y='0'>
+              <zone h='98000' id='55' param='vert' type='layout-flow' w='98400' x='800' y='1000'>
                 <zone h='5250' id='21' type='title' w='98400' x='800' y='1000'>
                   <zone-style>
                     <format attr='border-color' value='#000000' />
@@ -14067,8 +14294,8 @@
         <devicelayout auto-generated='true' name='Phone'>
           <size maxheight='700' minheight='700' sizing-mode='vscroll' />
           <zones>
-            <zone h='100000' id='22' type='layout-basic' w='100000' x='0' y='0'>
-              <zone h='98000' id='21' param='vert' type='layout-flow' w='98400' x='800' y='1000'>
+            <zone h='100000' id='26' type='layout-basic' w='100000' x='0' y='0'>
+              <zone h='84000' id='25' param='vert' type='layout-flow' w='84000' x='8000' y='8000'>
                 <zone fixed-size='280' h='98000' id='3' is-fixed='true' name='quarterly percent' w='82400' x='800' y='1000'>
                   <zone-style>
                     <format attr='border-color' value='#000000' />
@@ -14225,8 +14452,8 @@
           </layout-options>
           <size maxheight='1600' minheight='1600' sizing-mode='vscroll' />
           <zones>
-            <zone h='100000' id='55' type='layout-basic' w='100000' x='0' y='0'>
-              <zone h='98000' id='54' param='vert' type='layout-flow' w='98400' x='800' y='1000'>
+            <zone h='100000' id='59' type='layout-basic' w='100000' x='0' y='0'>
+              <zone h='84000' id='58' param='vert' type='layout-flow' w='84000' x='8000' y='8000'>
                 <zone fixed-size='214' h='27749' id='16' is-fixed='true' name='Top 25 Start Stations' w='45148' x='800' y='1000'>
                   <zone-style>
                     <format attr='border-color' value='#000000' />
@@ -14307,7 +14534,7 @@
       <simple-id uuid='{3D01CA51-8990-4055-BC26-B4ABCF0CF128}' />
     </dashboard>
   </dashboards>
-  <windows pres-mode='true' source-height='37'>
+  <windows saved-dpi-scale-factor='1.25' source-height='37'>
     <window class='dashboard' name='Usertype Exploratory Dashboard'>
       <viewpoints>
         <viewpoint name='Age_group Usertype  Pie'>
@@ -14323,7 +14550,7 @@
           <zoom type='entire-view' />
         </viewpoint>
       </viewpoints>
-      <active id='-1' />
+      <active id='32' />
       <simple-id uuid='{B672C628-628E-4024-B3FF-12D7D12A688F}' />
     </window>
     <window class='dashboard' name='Age Exploratory Dashboard'>
@@ -14338,12 +14565,12 @@
           <zoom type='entire-view' />
         </viewpoint>
       </viewpoints>
-      <active id='6' />
+      <active id='39' />
       <simple-id uuid='{71F3DA84-F69B-4252-9625-E834BE617509}' />
     </window>
-    <window class='dashboard' name='2015 Citi Bike Story'>
+    <window class='dashboard' maximized='true' name='2015 Citi Bike Story'>
       <viewpoints />
-      <active id='-1' />
+      <active id='5' />
       <simple-id uuid='{5EB35292-CCBB-4D4E-A93B-9BD5EBB997D9}' />
     </window>
     <window class='dashboard' name='staions/bike top/bottom 10'>
@@ -14388,13 +14615,13 @@
       <active id='-1' />
       <simple-id uuid='{4FC76ADC-7837-435A-BBFA-85FEFA62F26C}' />
     </window>
-    <window class='dashboard' maximized='true' name='Station Map Dashboard'>
+    <window class='dashboard' name='Station Map Dashboard'>
       <viewpoints>
         <viewpoint name='End Station Map'>
           <zoom type='entire-view' />
         </viewpoint>
       </viewpoints>
-      <active id='12' />
+      <active id='-1' />
       <simple-id uuid='{E4987497-7146-4E80-BE63-D50450D4709C}' />
     </window>
     <window class='dashboard' name='Peak Hour Dashboard'>
