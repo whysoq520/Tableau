@@ -8,5 +8,4 @@ Ideally, I wished use all data and compare the data in different years. However,
 https://s3.amazonaws.com/tripdata/index.html
 
 
-
-
+The 1st Dashboard 
