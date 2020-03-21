@@ -11,15 +11,13 @@ Due to without member ID information in the dataset, it is not able to figure ou
 
 ![Usertype Dashboard](image/Usertype%20Exploratory%20Dashbaord.png)
 
-
-Dashbaord 2 to discover the information of Age group/ gender active time during day, at different month.
-
-At this Dashboard, the interaction is set with hover plus dropdown. From this dashboard, when click around, you will be able to find that 65  and olde's  group are active from 1pm to 5pm versus other groups are active at 8-9am and 5-6pm. This group average tripduration is 28.4 minutes which is much higher than the other age groups less than 15 minutes.  Per data, it is because the unknown gender member's average tripduration is 32.9 minutes. 
+Dashboard 2 - to discover the information of Age group/ gender active time during day, at different month.
+At this Dashboard, the interaction is set with hover plus dropdown. From this dashboard, when click around, you will be able to find that 65 and the elder's group are active from 1pm to 5pm versus other groups are active at 8-9am and 5-6pm. This group average trip duration is 28.4 minutes which is much higher than the other age groups less than 15 minutes. Per data, it is because the unknown gender member's average trip duration is 32.9 
 ![Age Dashboard](image/Age%20Exploratory%20Dashboard.png)
 
-Dashbaord 3 the map of stations distribution
-At this Dashboard, dropdown options are availble for weekday and months. It can help to discover the Trend of stations distribution. Generally, the most popular Citi Bank stations are in the central of  Manhattan. From April to October
-, the travel seasons, some of  water front stations turns to very popular. It gets less popular when the stations are away from the center of the city. 
+Dashboard 3 - the map of stations distribution 
+At this Dashboard, dropdown options are available for weekday and months. It can help to discover the Trend of stations distribution. Generally, the most popular Citi Bank stations are in the central of Manhattan. From April to October, the travel seasons, some of water front stations turns to very popular. It gets less popular when the stations are away from the center of the city. 
+
 ![Map Dashboard](image/map.png)
 
 
@@ -28,4 +26,5 @@ Dashboard 4 – Analysis Peak Hours
 At this Dashboard, I used a different method of interaction. Listing all interaction options on the top of the bar graphs.  By choosing different month of the day, you will be able to find the peak out of the month or the day, or the combination of the day of the month.  It helps to discover the Trend of peak_hour. During weekdays, peak hours are 8-9am and 5-6pm while the peak hours are from 10am to 5pm during weekend (Saturday and Sunday). This shows that locals use citi bike as transportation to work during weekdays and to go out during weekend. This phenomenon shows similar at all months.
 
 ![Peak_hour Analyst Dashboard](image/BikeusedHourly.png)
+
 I want to analyst and compare the data at different years. Maybe when time is available, it is good to try to use python to do analyst. Tableau is good and easy to use for visualization. Python is more powerful when need to take care of bigger dataset. 
