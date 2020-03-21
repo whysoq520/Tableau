@@ -14523,7 +14523,7 @@
       <simple-id uuid='{3D01CA51-8990-4055-BC26-B4ABCF0CF128}' />
     </dashboard>
   </dashboards>
-  <windows source-height='37'>
+  <windows pres-mode='true' source-height='37'>
     <window class='dashboard' name='Usertype Exploratory Dashboard'>
       <viewpoints>
         <viewpoint name='Age_group Usertype  Pie'>
@@ -14559,7 +14559,7 @@
     </window>
     <window class='dashboard' maximized='true' name='2015 Citi Bike Story'>
       <viewpoints />
-      <active id='5' />
+      <active id='-1' />
       <simple-id uuid='{5EB35292-CCBB-4D4E-A93B-9BD5EBB997D9}' />
     </window>
     <window class='dashboard' name='staions/bike top/bottom 10'>
