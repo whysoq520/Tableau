@@ -28,4 +28,7 @@ At this Dashboard, dropdown options are availble for weekday and months. It can 
 , the travel seasons, some of  water front stations turns to very popular. It gets less popular when the stations are away from the center of the city. 
 ![Map Dashboard](image/map.png)
 
+
+
+![Peak_hour Analyst Dashboard](image/BikeusedHourly.png)
 I want to analyst and compare the data at different years. Maybe when time is available, it is good to try to use python to do analyst. Tableau is good and easy to use for visualization. Python is more powerful when need to take care of bigger dataset. 
