@@ -2,6 +2,8 @@
 
 **Citi Bike Analytics  -Citi Bike 2015**
 
+https://whysoq520.github.io/Tableau/
+
 Since 2013, the Citi Bike Program has implemented a robust infrastructure for collecting data on the program's utilization. Through the team's efforts, each month bike data is collected, organized, and made public on the Citi Bike Data webpage：https://www.citibikenyc.com/system-data 。
 Ideally, I wanted to use all data and compare the data in different years. However, it takes too much to load the data and it is impossible to update to the web with such large dataset. I decided to use only one-year data. Finally, I chose 2015 due to the 2015 data contains all months and columns in each file are same style, same column name. the dataset is very big, and it is not able to upload to github. Please use the follow link to download data. https://s3.amazonaws.com/tripdata/index.html
 After download the data, I checked and made sure that each month data files contain same style columns and the names of the column are same.  Tableau, all files union together to have the full data set.
