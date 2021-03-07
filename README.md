@@ -1,5 +1,3 @@
-# Tableau
-
 **Citi Bike Analytics  -Citi Bike 2015**
 
 https://whysoq520.github.io/Tableau/
